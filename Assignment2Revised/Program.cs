@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Assignment2_DIS_Spring2021
 {
@@ -10,25 +12,26 @@ namespace Assignment2_DIS_Spring2021
         {
             //Question1:
             Console.WriteLine("Enter a set of numbers: ");
-            int[] nums = new int[6];
+            int[] nums = {6, 5, 4, 7, 9, 6};
             int n = Convert.ToInt32(Console.ReadLine());
             Shuffle(nums, n);
+            Console.WriteLine("");
 
             //Question 2 
             Console.WriteLine("Enter a set of numbers: ");
-            int[] nums2 = new int[5];
+            int[] nums2 = { 0, 1, 2, 3, 10};
             MoveZeros(nums2);
             Console.WriteLine("");
 
             //Question3
             Console.WriteLine("Enter an array of integers: ");
-            int[] nums3 = new int[8];
+            int[] nums3 = { 1, 2, 2, 3, 2, 4};
             NumIdenticalPairs(nums3);
             Console.WriteLine();
 
             //Question 4
             Console.WriteLine("Give an array of integers: ");
-            int[] nums4 = new int[8];
+            int[] nums4 = { 1, 2, 1, 3, 4, 1 };
             int target = 0;
             TwoSum(nums4, target);
             Console.WriteLine();
@@ -36,7 +39,7 @@ namespace Assignment2_DIS_Spring2021
             //Question 5
             Console.WriteLine("Give a string: ");
             string s = Console.ReadLine();
-            int[] indices = new int[10];
+            int[] indices = { 1, 3, 6, 0, 2, 1, 7, 4 };
             RestoreString(s, indices);
             Console.WriteLine();
 
@@ -45,24 +48,42 @@ namespace Assignment2_DIS_Spring2021
             string s1 = Console.ReadLine();
             string t = Console.ReadLine();
             IsIsomorphic(s, t);
+            if (IsIsomorphic(s, t))
+            {
+                Console.WriteLine("Yes the two strings are Isomorphic");
+            }
+            else
+            {
+                Console.WriteLine("No, the given strings are not Isomorphic");
+            }
             Console.WriteLine();
+            Console.ReadKey();
 
             //Question 7
             Console.WriteLine("Question 7");
             int[,] scores = { { 1, 91 }, { 1, 92 }, { 2, 93 }, { 2, 97 }, { 1, 60 }, { 2, 77 }, { 1, 65 }, { 1, 87 }, { 1, 100 }, { 2, 100 }, { 2, 76 } };
             HighFive(scores);
             Console.WriteLine();
+            Console.ReadKey();
 
             //Question 8
             Console.WriteLine("Question 8");
             int n8 = 19;
             IsHappy(n8);
-
+            if (IsHappy(n8))
+            {
+                Console.WriteLine("{0} is a happy number", n8);
+            }
+            else
+            {
+                Console.WriteLine("{0} is not a happy number", n8);
+            }
             Console.WriteLine();
+            Console.ReadKey();
 
             //Question 9
             Console.WriteLine("Question 9");
-            int[] prices = new int [8];
+            int[] prices = { 7, 1, 5, 3, 6, 4 };
             MaxProfit(prices);
             Console.WriteLine();
 
@@ -70,37 +91,29 @@ namespace Assignment2_DIS_Spring2021
             Console.WriteLine("Question 10");
             int n10 = 3;
             ClimbStairs(n10);
-            Console.WriteLine();
+            Console.ReadKey();
 
             //Question 1
             static void Shuffle(int[] nums, int n)
             {
                 try
                 {
-                    for (int i = 0; i < nums.Length; i++)
-                    {
-                        nums[i] = int.Parse(Console.ReadLine());
-                    }
-                    static int[] Shuffle(int[] nums, int n)
+                    int[] answer = new int[2 * n];//define a new array
+                    int k = 0, m = n;
+                    for (int i = 0; i < 2 * n; i++)//control i in the new array
                     {
 
-                        if (nums == null || nums.Length == 0)
-                            return nums;
-
-                        int[] res = new int[2 * n];
-                        int idx1 = 0, idx2 = n;
-
-                        for (int i = 0; i < 2 * n; i++)
-                        {
-                            if (i % 2 == 0)
-                                res[i] = nums[idx1++];
-                            else
-                                res[i] = nums[idx2++];
-                        }
-
-                        return res;
+                        if (i % 2 == 0)
+                            answer[i] = nums[k++];//if i is even, then put in the first part of the array
+                        else
+                            answer[i] = nums[m++];//if it is odd, then put it in the place starting from n
                     }
-                    Shuffle(nums, n);
+
+
+
+                    for (int i = 0; i < 2 * n; i++)
+                        Console.Write(answer[i] + " ");//return all the numbers in the array
+                    Console.ReadKey();
 
                 }
                 catch (Exception)
@@ -184,7 +197,7 @@ namespace Assignment2_DIS_Spring2021
                         k += keyValuePair.Value * (keyValuePair.Value - 1) / 2;
                     }
 
-                    return k;
+                    Console.WriteLine(dict);
                 }
                 catch (Exception)
                 {
@@ -194,23 +207,25 @@ namespace Assignment2_DIS_Spring2021
             }
 
             //Question 4:
-            static void TwoSum(int[] nums, int target)
+            static void TwoSum(int[] nums4, int target)
             {
                 try
                 {
-                    if (nums == null || nums.Length < 2)
-                        return new int[2];
+                    var dict = new Dictionary<int, int>();//create a new dictionary
 
-                    Dictionary<int, int> dic = new Dictionary<int, int>();
-
-                    for (int i = 0; i < nums.Length; i++)
+                    for (int i = 0; i < nums4.Length; i++)
                     {
-                        if (dic.ContainsKey(target - nums[i]))
-                            return new int[] { i, dic[target - nums[i]] };
-                        else if (!dic.ContainsKey(nums[i]))
-                            dic.Add(nums[i], i);
+                        if (dict.ContainsKey(target - nums4[i])) //check if the dictionary contains the key equals target minus nums[i]
+                        {
+                            Console.Write("[{0},{1}]", dict[target - nums4[i]], i);//print out result
+                        }
+                        else if (!dict.ContainsKey(nums4[i])) //if it doesn't contain the key then record the value into the dictionary
+                        {
+                            dict.Add(nums4[i], i);
+                        }
                     }
-                    return new int[2];
+
+                    return;
                 }
                 
                 catch (Exception)
@@ -233,7 +248,7 @@ namespace Assignment2_DIS_Spring2021
                         cArr[indices[i]] = s[i];
                     }
 
-                    return new string(cArr);
+                    Console.WriteLine(cArr);
 
                 }
                 catch (Exception)
@@ -350,18 +365,15 @@ namespace Assignment2_DIS_Spring2021
             {
                 try
                 {
-                    if (n10 <= 2)
-                        return n10;
-
-                    int[] res = new int[n10 + 1];
-
-                    res[1] = 1;
-                    res[2] = 2;
-
-                    for (int i = 3; i <= n10; i++)
-                        res[i] = res[i - 1] + res[i - 2];
-
-                    return res[n10];
+                    int first = 1;
+                    int second = 1;
+                    while (n10-- > 0)
+                    {
+                        int tmp = first;
+                        first = second;//replace the value
+                        second = tmp + second;//replace second
+                    }
+                    Console.WriteLine(first);//print out the value
 
                 }
                 catch (Exception)
